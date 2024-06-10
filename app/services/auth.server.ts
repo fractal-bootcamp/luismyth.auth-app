@@ -3,7 +3,24 @@ import { createCookieSessionStorage } from "@remix-run/node";
 import { Authenticator } from "remix-auth";
 import { FormStrategy } from "remix-auth-form";
 
-export const authenticator = new Authenticator<User>(sessionStorage);
+const dummyUsers = [
+    {
+        id: 1,
+        email: "hello@alice.com",
+        password: "alicepw",
+    },
+    {
+        id: 2,
+        email: "hello@bob.com",
+        password: "bobpw",
+    },
+]
+
+export const authenticator = new Authenticator<UserAuthInfo>(sessionStorage);
+
+const login = (email: string, password: string):UserAuthInfo => {
+    const user = dummyUsers.find(user => user.email === email && user.password === password)
+}
 
 // Tell the Authenticator to use the form strategy
 authenticator.use(
